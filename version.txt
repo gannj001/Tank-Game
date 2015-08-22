@@ -1,0 +1,27 @@
+V7:  So what do shells do again?
+
+Oh I know!  Blow things up!  This is going to be the first release version.  Therefore this will be set as Tank-Game 1.0!
+In this release we have actually commented the code.
+Also added some more detail to the tank body image and added transparency to all the images so that's clearly a good
+thing right?!
+
+In this release there's a few new classes, in the form of destroyables and non-destroyables.  The non-destroyables will
+most likely be walls and buildings for the player and the target ot hide behind.  Destroyables will be targets and also
+what the main enemy class will derive from!
+
+V6:  The big one!
+
+The game is coming together now, the main player classes are written and have now been broken out into files.
+
+Decoupling has been done so the game object does very little of the updating.
+
+The flow is this:
+Game.update(args) -> Tank.update(args)  -> Turret.update(args)  ->*num of shells->  Shell.update(args)
+                     Updates the tank      Updates the turret                        Updates each shell
+
+Game.draw_objects()
+
+This release is again housekeeping,  mainly comment writing and moving the classes into their own files.
+
+Next version: Targets (albeit stationary ones...)!
+
