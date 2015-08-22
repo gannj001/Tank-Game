@@ -14,6 +14,7 @@ class Shell(sf.Sprite):
         self.turret = None
         self.target = None
         self.dead = False
+        self.damage = 10
 
     def setup(self, turret, target):
         self.set_turret(turret)

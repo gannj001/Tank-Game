@@ -10,6 +10,8 @@ class StatTracker(sf.Text):
         self.string = "0"
         self.position = None
         self.font = sf.Font.from_file("res/neo_scifi.ttf")
+        self.color = sf.Color.WHITE
+        self.character_size = 20
 
     def set_tracked_stat(self, stat):
         self.stat = stat
@@ -18,17 +20,16 @@ class StatTracker(sf.Text):
         self.position = position
 
     def set_string(self):
-        output = self.encode_to_string()
-        self.string = output
+        self.string = self.encode_to_string()
 
     def encode_to_string(self):
-        if type(self.stat) == "bool":
+        if isinstance(self.stat, bool):
             ret = self.parse_bool(self.stat)
-        elif type(self.stat) == "int":
+        elif isinstance(self.stat, int):
             ret = self.parse_int(self.stat)
-        elif type(self.stat) == "list":
+        elif isinstance(self.stat, list):
             ret = self.parse_list(self.stat)
-        elif type(self.stat) == "string":
+        elif isinstance(self.stat, str):
             ret = self.stat
         else:
             ret = "Incompatible Argument"
