@@ -37,6 +37,8 @@ class Destroyable(sf.Sprite):
 class StationaryTarget(Destroyable):
     def __init__(self, texture):
         Destroyable.__init__(self, texture)
+        self.h = 15
+        self.w = 16
 
     def take_damage(self):
         self.health -= self.collided.damage - self.resist

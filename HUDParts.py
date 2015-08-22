@@ -35,7 +35,8 @@ class StatTracker(sf.Text):
             ret = "Incompatible Argument"
         return ret
 
-    def parse_bool(self, val):
+    @staticmethod
+    def parse_bool(val):
         if val:
             return "True"
         else:
@@ -49,5 +50,3 @@ class StatTracker(sf.Text):
     def parse_list(val):
         return ', '.join(val)
 
-    def update(self):
-        self.set_string()

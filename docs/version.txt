@@ -1,3 +1,15 @@
+V1.0.3:  It builds!
+
+Having cracked cx_Freeze now we want to know how good we are!  So next step i crack some kind of score keeping, possibly
+an object controlled by the game object, based on the StatTracker printing out a player score in that cool font!
+
+More update will include blocking objects, they stop movement and bullets but can't destroyed.  These will look like
+walls, buildings etc.
+
+Also included in this build is a copy of the tech plan!  This is an unordered set of ideas so I don't forget them.
+
+And!  This doc moved to a new docs folder!  Getting organised!
+
 V7:  So what do shells do again?
 
 Oh I know!  Blow things up!  This is going to be the first release version.  Therefore this will be set as Tank-Game 1.0!

@@ -21,19 +21,10 @@ window.vertical_synchronization = True
 tank = TankBody(sf.Texture.from_file("res/RectTankDetailed.png"))
 turret = TankTurret(sf.Texture.from_file("res/TankTurret.png"))
 
-d = StationaryTarget(sf.Texture.from_file("res/Target.png"))
-d.set_position((100, 500))
 
-g = Game()
+g = Game(window=window, mouse=sf.Mouse, keyboard=sf.Keyboard)
 g.add_tank(tank)
-g.add_target(d)
-g.set_window(window)
-g.set_keyboard(sf.Keyboard)
-g.set_mouse(sf.Mouse)
 
-s = StatTracker()
-s.set_tracked_stat(turret.ready_to_fire)
-s.set_position((700, 575))
 
 turret.set_body(tank)
 tank.set_turret(turret)
@@ -52,7 +43,6 @@ while window.is_open:
     window.clear(sf.Color(50, 200, 50))
     if g.is_playing:
         g.update()
-        s.update()
 
         g.draw_objects()
 
