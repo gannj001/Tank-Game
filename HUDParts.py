@@ -49,4 +49,3 @@ class StatTracker(sf.Text):
     @staticmethod
     def parse_list(val):
         return ', '.join(val)
-

@@ -16,6 +16,7 @@ class TankTurret(sf.Sprite):
         self.count = 0
         self.shells = []
         self.tank = None
+        self.shells_fired = 0
 
     def change_facing(self, mouse_position):
         dx = mouse_position.x - self.position.x
@@ -33,6 +34,7 @@ class TankTurret(sf.Sprite):
             s = Shell((sf.Texture.from_file("res/Shell.png")))
             s.setup(self, mouse_position)
             self.shells.append(s)
+            self.shells_fired += 1
 
     def update(self, mouse, window):
         if self.count >= self.reload_time:

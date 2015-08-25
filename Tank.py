@@ -26,6 +26,12 @@ class TankBody(sf.Sprite):
         y = math.cos(math.radians(self.rotation)) * -self.speed
         self.position += (x, y)
 
+    def accelerate(self):
+        pass
+
+    def decelerate(self):
+        pass
+
     def backward(self):
         x = math.sin(math.radians(self.rotation)) * -self.speed
         y = math.cos(math.radians(self.rotation)) * self.speed

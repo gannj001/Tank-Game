@@ -21,7 +21,6 @@ class Destroyable(sf.Sprite):
     def check_collision(self, shells):
         for shell in shells:
             if intersects(self.global_bounds, shell.global_bounds):
-                print "collision"
                 return shell
 
     def check_alive(self):

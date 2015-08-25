@@ -1,0 +1,7 @@
+This doc will show the plans for the future!
+
+Scrolling map
+Mini-map
+Start menu
+pause menu
+different vehicles

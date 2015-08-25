@@ -4,9 +4,7 @@ import sfml as sf
 
 from Tank import TankBody
 from Turret import TankTurret
-from HUDParts import StatTracker
 from Game import Game
-from Destroyables import StationaryTarget
 
 
 # define constants
@@ -40,8 +38,9 @@ while window.is_open:
         if sf.Keyboard.is_key_pressed(sf.Keyboard.ESCAPE):
             window.close()
 
-    window.clear(sf.Color(50, 200, 50))
+
     if g.is_playing:
+        window.clear(sf.Color(50, 200, 50))
         g.update()
 
         g.draw_objects()
