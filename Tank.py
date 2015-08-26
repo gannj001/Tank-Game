@@ -9,32 +9,41 @@ class TankBody(sf.Sprite):
     def __init__(self, texture):
         sf.Sprite.__init__(texture)
         self.origin = (16, 24)
-        self.speed = 2
+        self.accel = 0.1
         self.turret = None
+        self.traverse = 1
+        self.top_speed = 2
+        self.speed = 0
 
     def set_turret(self, turret):
         self.turret = turret
 
     def rotate_left(self):
-        self.rotate(-1)
+        self.rotate(-self.traverse)
 
     def rotate_right(self):
-        self.rotate(1)
+        self.rotate(self.traverse)
 
     def forward(self):
-        x = math.sin(math.radians(self.rotation)) * self.speed
-        y = math.cos(math.radians(self.rotation)) * -self.speed
-        self.position += (x, y)
-
-    def accelerate(self):
-        pass
-
-    def decelerate(self):
-        pass
+        self.speed += self.accel
+        if self.speed > self.top_speed:
+            self.speed = self.top_speed
 
     def backward(self):
-        x = math.sin(math.radians(self.rotation)) * -self.speed
-        y = math.cos(math.radians(self.rotation)) * self.speed
+        self.speed -= self.accel
+        if self.speed < -self.top_speed:
+            self.speed = -self.top_speed
+
+    def slow_down(self):
+        if self.speed > 0:
+            self.speed -= self.accel
+        elif self.speed < 0:
+            self.speed += self.accel
+        self.speed = round(self.speed, 1)
+
+    def calc_position(self):
+        x = math.sin(math.radians(self.rotation)) * self.speed
+        y = math.cos(math.radians(self.rotation)) * -self.speed
         self.position += (x, y)
 
     def move(self, keyboard):
@@ -47,6 +56,9 @@ class TankBody(sf.Sprite):
             self.forward()
         elif keyboard.is_key_pressed(sf.Keyboard.S):
             self.backward()
+        else:
+            self.slow_down()
+        self.calc_position()
 
     def check_edge(self, window):
         if self.position.x < 0:
@@ -60,7 +72,10 @@ class TankBody(sf.Sprite):
             self.position = (self.position.x, window.size.y)
 
     def update(self, mouse, window, keyboard):
-        self.turret.update(mouse, window)
         if sf.KeyEvent.pressed:
             self.move(keyboard)
+        else:
+            self.slow_down()
+
         self.check_edge(window)
+        self.turret.update(mouse, window)

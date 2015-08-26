@@ -2,10 +2,9 @@ __author__ = 'John'
 
 import sfml as sf
 
-from Tank import TankBody
-from Turret import TankTurret
 from Game import Game
-
+from AssaultGun import AssaultGunBody
+from AssaultGunTurret import AssaultGunTurret
 
 # define constants
 game_size = sf.Vector2(800, 600)
@@ -16,9 +15,11 @@ window = sf.RenderWindow(sf.VideoMode(w, h), "Tank-Game V1.0")
 window.vertical_synchronization = True
 
 # The tank should be created in the Game object
-tank = TankBody(sf.Texture.from_file("res/RectTankDetailed.png"))
-turret = TankTurret(sf.Texture.from_file("res/TankTurret.png"))
+# tank = TankBody(sf.Texture.from_file("res/RectTankDetailed.png"))
+# turret = TankTurret(sf.Texture.from_file("res/TankTurret.png"))
 
+tank = AssaultGunBody(sf.Texture.from_file("res/RectTankDetailed.png"))
+turret = AssaultGunTurret(sf.Texture.from_file("res/TankTurret.png"))
 
 g = Game(window=window, mouse=sf.Mouse, keyboard=sf.Keyboard)
 g.add_tank(tank)
@@ -37,7 +38,6 @@ while window.is_open:
             window.close()
         if sf.Keyboard.is_key_pressed(sf.Keyboard.ESCAPE):
             window.close()
-
 
     if g.is_playing:
         window.clear(sf.Color(50, 200, 50))

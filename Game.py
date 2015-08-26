@@ -28,6 +28,8 @@ class Game:
         self.reloaded = None
         self.timer = None
         self.add_timer()
+        self.acc_display = None
+        self.score_display = None
 
     def add_tank(self, tank):
         self.tanks.append(tank)
@@ -87,7 +89,10 @@ class Game:
     def score_screen(self):
         self.HUDObjects.clear()
         # This needs to change as more shells/tanks/turrets are introduced
-        accuracy = self.player_score / self.tanks[0].turret.shells_fired * 100
+        if self.tanks[0].turret.shells_fired != 0:
+            accuracy = self.player_score / self.tanks[0].turret.shells_fired * 100
+        else:
+            accuracy = 0
         self.acc_display = StatTracker()
         self.acc_display.string = "Player Accuracy: " + str(accuracy)
         self.add_hud_parts(self.acc_display, "acc_display")
@@ -117,6 +122,5 @@ class Game:
             time = self.clock.elapsed_time.seconds
             self.timer.string = str(round(time, 2))
             # if time >= 10.:
-            #
             #     self.is_playing = False
             #     self.score_screen()
