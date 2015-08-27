@@ -21,3 +21,12 @@ def intersects(rect1, rect2):
     if left < right and top < bottom:
         ret = True
     return ret
+
+
+def point_rect_intersect(point, rect):
+    ret = False
+
+    if rect.left <= point.x <= rect.right and rect.top <= point.y <= rect.bottom:
+        ret = True
+
+    return ret
