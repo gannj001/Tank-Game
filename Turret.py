@@ -22,17 +22,30 @@ class TankTurret(sf.Sprite):
         dx = mouse_position.x - self.position.x
         dy = mouse_position.y - self.position.y
         angle = math.degrees(math.atan2(dy, dx)) + 90
-        self.rotation = angle
+        if angle < 0:
+            angle += 360
+        if abs(angle - self.rotation) < 3:
+            self.rotation = angle
+        else:
+            if angle > self.rotation:
+                self.rotate(3)
+            elif angle < self.rotation:
+                self.rotate(-3)
 
     def set_body(self, tank):
         self.tank = tank
 
-    def fire(self, mouse_position):
+    def get_forward_point(self):
+        x = math.sin(math.radians(self.rotation)) * 10
+        y = math.cos(math.radians(self.rotation)) * -10
+        return self.position + sf.Vector2(x, y)
+
+    def fire(self):
         if self.ready_to_fire:
             self.ready_to_fire = False
             self.count = 0
             s = Shell((sf.Texture.from_file("res/Shell.png")))
-            s.setup(self, mouse_position)
+            s.setup(self, self.get_forward_point())
             self.shells.append(s)
             self.shells_fired += 1
 
@@ -44,7 +57,7 @@ class TankTurret(sf.Sprite):
         self.position = self.tank.position
         self.change_facing(mouse.get_position(window))
         if mouse.is_button_pressed(sf.Mouse.LEFT):
-            self.fire(mouse.get_position(window))
+            self.fire()
         for shell in self.shells:
             shell.update()
             if shell.dead:

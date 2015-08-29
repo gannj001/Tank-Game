@@ -1,7 +1,5 @@
 __author__ = 'John'
 
-import math
-
 import sfml as sf
 
 from Turret import TankTurret
@@ -15,11 +13,6 @@ class AssaultGunTurret(TankTurret):
 
     def change_facing(self, mouse_position):
         self.rotation = self.tank.rotation
-
-    def get_forward_point(self):
-        x = math.sin(math.radians(self.rotation)) * 10
-        y = math.cos(math.radians(self.rotation)) * -10
-        return self.position + sf.Vector2(x, y)
 
     def fire(self, mouse_position):
         if self.ready_to_fire:

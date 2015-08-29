@@ -25,8 +25,8 @@ class MenuScreen:
     def create_game(self):
         self.game = Game(window=self.window, mouse=sf.Mouse, keyboard=sf.Keyboard)
         if self.tank_type == 'assaultgun':
-            tank = AssaultGunBody(sf.Texture.from_file("res/RectTankDetailed.png"))
-            turret = AssaultGunTurret(sf.Texture.from_file("res/TankTurret.png"))
+            tank = AssaultGunBody(sf.Texture.from_file("res/AssaultGunDetailed.png"))
+            turret = AssaultGunTurret(sf.Texture.from_file("res/AssaultGun.png"))
         else:
             tank = TankBody(sf.Texture.from_file("res/RectTankDetailed.png"))
             turret = TankTurret(sf.Texture.from_file("res/TankTurret.png"))

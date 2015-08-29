@@ -20,9 +20,11 @@ class TankBody(sf.Sprite):
 
     def rotate_left(self):
         self.rotate(-self.traverse)
+        self.turret.rotate(-self.traverse)
 
     def rotate_right(self):
         self.rotate(self.traverse)
+        self.turret.rotate(self.traverse)
 
     def forward(self):
         self.speed += self.accel
