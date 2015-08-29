@@ -14,6 +14,7 @@ class Destroyable(sf.Sprite):
         self.resist = 0
         self.rect = self.global_bounds
         self.alive = True
+        self.blocks_sight = True
 
     def set_position(self, position):
         self.position = position

@@ -14,6 +14,7 @@ class TankBody(sf.Sprite):
         self.traverse = 1
         self.top_speed = 2
         self.speed = 0
+        self.blocks_sight = False
 
     def set_turret(self, turret):
         self.turret = turret

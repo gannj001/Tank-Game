@@ -11,12 +11,13 @@ from Path import Path
 
 
 class EnemyTank(TankBody):
-    def __init__(self, texture=sf.Texture.from_file("res/EnemyTankBody.png")):
+    def __init__(self, texture=sf.Texture.from_file("res/EnemyTankDetailed.png")):
         TankBody.__init__(self, texture)
-        turret = EnemyTankTurret()
-        turret.set_body(self)
+        self.turret = EnemyTankTurret(sf.Texture.from_file("res/EnemyTankTurret.png"))
+        self.turret.set_body(self)
         self.target = None
         self.path = None
+
 
     def check_shells(self, objects):
         for ob in objects:
@@ -30,7 +31,11 @@ class EnemyTank(TankBody):
         for ob in objects:
             if ob.blocks_sight:
                 blockers.append(ob)
-        return check_sight(self.position, self.target.position, blockers)
+        ret = True
+        for blocker in blockers:
+            if not check_sight(self.position, self.target.position, blocker):
+                ret = False
+        return ret
 
     def move(self):
         dx = self.path[1].position.x - self.position.x
@@ -39,9 +44,9 @@ class EnemyTank(TankBody):
         if abs(angle - self.rotation) < 3:
             self.rotation = angle
         else:
-            if angle > self.rotation:
+            if calc_shortest_direction(self.rotation, angle) >= 0:
                 self.rotate(3)
-            elif angle < self.rotation:
+            else:
                 self.rotate(-3)
 
         if abs(angle - self.rotation) < 10:
@@ -62,4 +67,15 @@ class EnemyTank(TankBody):
             else:
                 self.slow_down()
 
+        self.turret.update(objects)
+
         self.check_shells(objects)
+
+
+def create_enemy_tank():
+    tank = EnemyTank(sf.Texture.from_file("res/EnemyTankDetailed.png"))
+    tank.position = sf.Vector2(100, 100)
+    tank.rotation = 180
+    turret = EnemyTankTurret(sf.Texture.from_file("res/EnemyTankTurret.png"))
+    turret.set_body(tank)
+    return tank

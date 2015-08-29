@@ -14,7 +14,7 @@ class AssaultGunTurret(TankTurret):
     def change_facing(self, mouse_position):
         self.rotation = self.tank.rotation
 
-    def fire(self, mouse_position):
+    def fire(self):
         if self.ready_to_fire:
             self.ready_to_fire = False
             self.count = 0

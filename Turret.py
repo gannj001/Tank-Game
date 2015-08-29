@@ -1,8 +1,10 @@
 __author__ = 'John'
 
-import math
+from math import atan2, degrees, sin, cos, radians
 
 import sfml as sf
+
+from workarounds import calc_shortest_direction
 
 from Shell import Shell
 
@@ -21,23 +23,26 @@ class TankTurret(sf.Sprite):
     def change_facing(self, mouse_position):
         dx = mouse_position.x - self.position.x
         dy = mouse_position.y - self.position.y
-        angle = math.degrees(math.atan2(dy, dx)) + 90
+        angle = degrees(atan2(dy, dx)) + 90
+
         if angle < 0:
+            # correct for (x, -y) quadrant
             angle += 360
+            # if less than 3 degrees difference, snap to
         if abs(angle - self.rotation) < 3:
             self.rotation = angle
         else:
-            if angle > self.rotation:
+            if calc_shortest_direction(self.rotation, angle) >= 0:
                 self.rotate(3)
-            elif angle < self.rotation:
+            else:
                 self.rotate(-3)
 
     def set_body(self, tank):
         self.tank = tank
 
     def get_forward_point(self):
-        x = math.sin(math.radians(self.rotation)) * 10
-        y = math.cos(math.radians(self.rotation)) * -10
+        x = sin(radians(self.rotation)) * 10
+        y = cos(radians(self.rotation)) * -10
         return self.position + sf.Vector2(x, y)
 
     def fire(self):

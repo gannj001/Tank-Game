@@ -4,10 +4,7 @@ import sfml as sf
 
 from Game import Game
 from Button import Button
-from Tank import TankBody
-from Turret import TankTurret
-from AssaultGun import AssaultGunBody
-from AssaultGunTurret import AssaultGunTurret
+from Player import PlayerTank, PlayerGun
 from TextBox import TextBox
 
 
@@ -25,16 +22,13 @@ class MenuScreen:
     def create_game(self):
         self.game = Game(window=self.window, mouse=sf.Mouse, keyboard=sf.Keyboard)
         if self.tank_type == 'assaultgun':
-            tank = AssaultGunBody(sf.Texture.from_file("res/AssaultGunDetailed.png"))
-            turret = AssaultGunTurret(sf.Texture.from_file("res/AssaultGun.png"))
+            tank = PlayerGun(sf.Texture.from_file("res/AssaultGunDetailed.png"))
         else:
-            tank = TankBody(sf.Texture.from_file("res/RectTankDetailed.png"))
-            turret = TankTurret(sf.Texture.from_file("res/TankTurret.png"))
+            tank = PlayerTank(sf.Texture.from_file("res/RectTankDetailed.png"))
 
-        turret.set_body(tank)
-        tank.set_turret(turret)
         tank.position = (self.window.size / 2)
         self.game.add_tank(tank)
+        self.game.add_enemy()
 
     def setup_menu_screen(self):
         title = TextBox(sf.Texture.from_file("res/title.png"))

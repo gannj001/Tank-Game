@@ -61,5 +61,23 @@ def check_sight(point1, point2, sight_blocker):
     return ret
 
 
+def calc_shortest_direction(source, target):
+    left = (360 - source) + target
+    right = source - target
+
+    if source < target:
+        if target > 0:
+            left = target - source
+            right = (360 - target) + source
+        else:
+            left = (360 - target) + source
+            right = target - source
+    if left <= right:
+        ret = left
+    else:
+        ret = right * -1
+    return ret
+
+
 def get_distance(point1, point2):
     return math.sqrt((point1.x - point2.x) ** 2 + (point1.y - point2.y) ** 2)

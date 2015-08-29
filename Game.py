@@ -2,10 +2,10 @@ __author__ = 'John'
 
 import random
 
-import sfml as sf
-
+from Player import *
 from HUDParts import StatTracker
 from Destroyables import StationaryTarget
+from EnemyTank import create_enemy_tank
 
 
 class Game:
@@ -17,6 +17,8 @@ class Game:
         self.HUDObjects = {}
         self.targets = []
         self.all_shells = []
+        self.enemies = []
+        self.objects = []
         self.is_playing = True
         self.player_score = 0
         self.window_size = sf.Vector2(800, 600)
@@ -33,9 +35,11 @@ class Game:
 
     def add_tank(self, tank):
         self.tanks.append(tank)
+        self.objects.append(tank)
 
     def add_target(self, target):
         self.targets.append(target)
+        self.objects.append(target)
 
     def add_hud_parts(self, hudpart, partname):
         self.HUDObjects[partname] = hudpart
@@ -59,6 +63,11 @@ class Game:
         self.reloaded.set_position((self.window.size.x*0.9, self.window.size.y*0.9))
         self.add_hud_parts(self.reloaded, "reload_indicator")
 
+    def add_enemy(self):
+        tank = create_enemy_tank()
+        tank.position = sf.Vector2(100, 100)
+        self.enemies.append(tank)
+
     def new_target(self):
         if len(self.targets) < 5:
             t = StationaryTarget(sf.Texture.from_file("res/Target.png"))
@@ -80,6 +89,12 @@ class Game:
                 self.window.draw(shell)
             self.window.draw(tank.turret)
 
+        for enemy in self.enemies:
+            self.window.draw(enemy)
+            for shell in enemy.turret.shells:
+                self.window.draw(shell)
+            self.window.draw(enemy.turret)
+
         for target in self.targets:
             self.window.draw(target)
 
@@ -89,10 +104,11 @@ class Game:
     def score_screen(self):
         self.HUDObjects.clear()
         # This needs to change as more shells/tanks/turrets are introduced
-        if self.tanks[0].turret.shells_fired != 0:
-            accuracy = self.player_score / self.tanks[0].turret.shells_fired * 100
-        else:
-            accuracy = 0
+        for tank in self.tanks:
+            if isinstance(tank, PlayerTank) or isinstance(tank, PlayerGun):
+                accuracy = 0
+                if tank.turret.shells_fired != 0:
+                    accuracy = self.player_score / self.tanks[0].turret.shells_fired * 100
         self.acc_display = StatTracker()
         self.acc_display.string = "Player Accuracy: " + str(accuracy)
         self.add_hud_parts(self.acc_display, "acc_display")
@@ -108,6 +124,8 @@ class Game:
         if self.is_playing:
             for tank in self.tanks:
                 tank.update(self.mouse, self.window, self.keyboard)
+            for enemy in self.enemies:
+                enemy.update(self.objects)
             if len(self.targets) > 0:
                 for target in self.targets:
                     for tank in self.tanks:
