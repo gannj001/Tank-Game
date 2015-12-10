@@ -29,6 +29,7 @@ class MenuScreen:
         tank.position = (self.window.size / 2)
         self.game.add_tank(tank)
         self.game.add_enemy()
+        self.game.add_obstacles()
 
     def setup_menu_screen(self):
         title = TextBox(sf.Texture.from_file("res/title.png"))

@@ -4,6 +4,8 @@ import math
 
 import sfml as sf
 
+from workarounds import intersects
+
 
 class TankBody(sf.Sprite):
     def __init__(self, texture):
@@ -15,6 +17,36 @@ class TankBody(sf.Sprite):
         self.top_speed = 2
         self.speed = 0
         self.blocks_sight = False
+        self.blocks_movement = True
+
+    def check_collisions(self, objects):
+        move_blockers = []
+        for ob in objects:
+            if ob == self:
+                continue
+            else:
+                if ob.blocks_movement:
+                    move_blockers.append(ob)
+
+        for blocker in move_blockers:
+            own_rect = self.global_bounds
+            ob_rect = blocker.global_bounds
+            if intersects(own_rect, ob_rect):
+                dx = own_rect.center.x - ob_rect.center.x
+                dy = own_rect.center.y - ob_rect.center.y
+                angle = math.atan2(dy, dx) + 90
+                if angle < 0:
+                    angle += 360
+
+                if 45 < angle <= 135:
+                    self.position.x = blocker.global_bounds.right
+                elif 135 < angle <= 225:
+                    self.position.y = blocker.global_bounds.bottom
+                elif 225 < angle <= 315:
+                    self.position.x = blocker.global_bounds.left + self.local_bounds.width / 2
+                else:
+                    self.position.y = blocker.global_bounds.top + self.local_bounds.height / 2
+
 
     def set_turret(self, turret):
         self.turret = turret
@@ -74,11 +106,13 @@ class TankBody(sf.Sprite):
         elif self.position.y > window.size.y:
             self.position = (self.position.x, window.size.y)
 
-    def update(self, mouse, window, keyboard):
+    def update(self, mouse, window, keyboard, objects):
         if sf.KeyEvent.pressed:
             self.move(keyboard)
         else:
             self.slow_down()
+
+        self.check_collisions(objects)
 
         self.check_edge(window)
         self.turret.update(mouse, window)

@@ -40,8 +40,8 @@ def check_sight(point1, point2, sight_blocker):
     ret = True
     # do y=mx+c for all values of x inside the left and right of the rectangle
     # calculate m as dy/dx
-    dx = line[0].position.x - line[1].position.x
-    dy = line[0].position.y - line[1].position.y
+    dx = line[0].x - line[1].x
+    dy = line[0].y - line[1].y
     if dy == 0:
         m = 0
     elif dx == 0:
@@ -50,11 +50,11 @@ def check_sight(point1, point2, sight_blocker):
         m = dy / dx
 
     # calculate c=y-mx
-    c = line[0].position.y - m * line[0].position.x
+    c = line[0].y - m * line[0].x
 
     # for all points on the line, if y is between top and bottom and x is between left and right
     # return True
-    for x in range(int(line[0].position.x), int(line[1].position.x)):
+    for x in range(int(line[0].x), int(line[1].x)):
         y = m * x + c
         if rect.top < y < rect.bottom and rect.left < x < rect.right:
             ret = False

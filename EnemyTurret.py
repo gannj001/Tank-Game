@@ -34,7 +34,7 @@ class EnemyTankTurret(TankTurret):
         own_point.position = self.position
         far_point = sf.Vertex()
         far_point.position = (cos(self.rotation) * 100, sin(self.rotation) * 100)
-        if check_sight(own_point, far_point, self.target):
+        if check_sight(own_point.position, far_point.position, self.target):
             ret = True
         return ret
 

@@ -6,6 +6,7 @@ from Player import *
 from HUDParts import StatTracker
 from Destroyables import StationaryTarget
 from EnemyTank import create_enemy_tank
+from MoveBlocker import MoveBlocker
 
 
 class Game:
@@ -23,6 +24,7 @@ class Game:
         self.player_score = 0
         self.window_size = sf.Vector2(800, 600)
         self.clock = sf.Clock()
+        self.obstacles = []
 
         # HUD parts
         self.scorekeeper = None
@@ -34,8 +36,24 @@ class Game:
         self.score_display = None
 
     def add_tank(self, tank):
+        tank.rotation = 270
+        tank.position = sf.Vector2(700, 300)
         self.tanks.append(tank)
         self.objects.append(tank)
+
+    def add_obstacles(self):
+        m1 = MoveBlocker((200, 200))
+        m1.set_position(sf.Vector2(400, 300))
+        self.objects.append(m1)
+        self.obstacles.append(m1)
+        # m2 = MoveBlocker((100, 100))
+        # m2.set_position(sf.Vector2(600, 400))
+        # self.objects.append(m2)
+        # self.obstacles.append(m2)
+        # m3 = MoveBlocker((100, 100))
+        # m3.set_position(sf.Vector2(200, 200))
+        # self.objects.append(m3)
+        # self.obstacles.append(m3)
 
     def add_target(self, target):
         self.targets.append(target)
@@ -65,7 +83,8 @@ class Game:
 
     def add_enemy(self):
         tank = create_enemy_tank()
-        tank.position = sf.Vector2(100, 100)
+        tank.position = sf.Vector2(100, 305)
+        tank.rotation = 90
         self.enemies.append(tank)
 
     def new_target(self):
@@ -83,6 +102,8 @@ class Game:
         self.add_hud_parts(self.timer, "timer")
 
     def draw_objects(self):
+        for obstacle in self.obstacles:
+            self.window.draw(obstacle)
         for tank in self.tanks:
             self.window.draw(tank)
             for shell in tank.turret.shells:
@@ -91,6 +112,7 @@ class Game:
 
         for enemy in self.enemies:
             self.window.draw(enemy)
+            self.window.draw(enemy.path)
             for shell in enemy.turret.shells:
                 self.window.draw(shell)
             self.window.draw(enemy.turret)
@@ -123,7 +145,7 @@ class Game:
     def update(self):
         if self.is_playing:
             for tank in self.tanks:
-                tank.update(self.mouse, self.window, self.keyboard)
+                tank.update(self.mouse, self.window, self.keyboard, self.objects)
             for enemy in self.enemies:
                 enemy.update(self.objects)
             if len(self.targets) > 0:
@@ -134,7 +156,7 @@ class Game:
                         self.targets.remove(target)
                         self.player_score += 1
 
-            self.new_target()
+            # self.new_target()
 
             self.scorekeeper.string = str(self.player_score)
             time = self.clock.elapsed_time.seconds

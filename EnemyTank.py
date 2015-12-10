@@ -18,7 +18,6 @@ class EnemyTank(TankBody):
         self.target = None
         self.path = None
 
-
     def check_shells(self, objects):
         for ob in objects:
             if isinstance(ob, Shell):
@@ -54,6 +53,15 @@ class EnemyTank(TankBody):
             # elif 170 < abs(angle - self.rotation) < 190:
             #     self.backward()
 
+    def range(self):
+        ret = False
+        dx = abs(self.position.x - self.target.position.x)
+        dy = abs(self.position.y - self.target.position.y)
+        dist = math.sqrt(dx ** 2 + dy ** 2)
+        if dist < 300:
+            ret = True
+        return ret
+
     def update(self, objects):
         for ob in objects:
             if isinstance(ob, PlayerTank) or isinstance(ob, PlayerGun):
@@ -61,11 +69,19 @@ class EnemyTank(TankBody):
 
         if self.target:
             sight = self.check_sight_to_target(objects)
-            if not sight:
+            range_to_target = self.range()
+            if not sight or not range_to_target:
                 self.path = Path(self.position, self.target.position)
+                sight_blockers = []
+                for ob in objects:
+                    if ob.blocks_sight:
+                        sight_blockers.append(ob)
+                self.path.update(sight_blockers)
                 self.move()
             else:
                 self.slow_down()
+            self.calc_position()
+        self.check_collisions(objects)
 
         self.turret.update(objects)
 

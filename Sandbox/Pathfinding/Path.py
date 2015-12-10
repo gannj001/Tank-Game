@@ -20,7 +20,7 @@ class Path(sf.VertexArray):
         # if player can be seen, and is in range, stop and fire
         # else move towards player along path
         for blocker in sight_blockers:
-            while not check_sight(self[0], self[1], blocker):
+            while not check_sight(self[0].position, self[1].position, blocker):
                 # set old dist as current dist
                 olddist = get_distance(self[0].position, self[1].position)
                 tx = int(self[1].position.x)
