@@ -1,0 +1,8 @@
+DATE      |SUMMARY                  |DESCRIPTION
+10/12/2015|When AI tank is below    |
+          |sight blocking square,   |
+          |it doesn't fire, assume  |
+          |line of sight is blocked |
+------------------------------------------------------------------------------------------------------------------------
+10/12/2015|AI tank movement is      |
+          |through blocking obstacle|

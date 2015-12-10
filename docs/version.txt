@@ -1,3 +1,11 @@
+V1.1.3:  New Vehicles!
+
+Now the player has a choice!  An assault gun has been implemented with slightly faster turn but a fixed turret and new
+art.  Also there is a now an enemy player.  I need to start breaking this into development and production builds so I
+always have a working version.  I should also consider looking into doing some branching so I don't break my trunk.
+There is a menu screen at the beginning which is very rough and ready but is functional.  Also shows some of the click
+behaviour I can get out of this library.  I prefer sfml to pygame.
+
 V1.0.3:  It builds!
 
 Having cracked cx_Freeze now we want to know how good we are!  So next step i crack some kind of score keeping, possibly

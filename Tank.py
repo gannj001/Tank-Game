@@ -47,7 +47,6 @@ class TankBody(sf.Sprite):
                 else:
                     self.position.y = blocker.global_bounds.top + self.local_bounds.height / 2
 
-
     def set_turret(self, turret):
         self.turret = turret
 

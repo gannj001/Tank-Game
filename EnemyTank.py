@@ -34,6 +34,7 @@ class EnemyTank(TankBody):
         for blocker in blockers:
             if not check_sight(self.position, self.target.position, blocker):
                 ret = False
+                print "Sight blocked"
         return ret
 
     def move(self):

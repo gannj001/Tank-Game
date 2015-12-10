@@ -25,6 +25,8 @@ class Path(sf.VertexArray):
                 # set old dist as current dist
                 # olddist = get_distance(self[0].position, self[1].position)
                 # bad idea, what if next point is further away?  Still gotta pick it!
+                #   Maybe measure line length rather than straight line distance?  If it makes the movement path shorter
+                #   move along it
                 olddist = None
                 tx = int(self[1].position.x)
                 ty = int(self[1].position.y)
